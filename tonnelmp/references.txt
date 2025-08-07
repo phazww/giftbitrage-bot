@@ -1,0 +1,64 @@
+pageGifts:
+
+URL: 
+https://gifts2.tonnel.network/api/pageGifts
+IN:
+{
+    filter
+    limit
+    page
+    price_range
+    ref: 0
+    sort
+    user_auth
+}
+
+sorting:
+
+"{\"price\":1,\"gift_id\":-1}" - price low to high
+"{\"price\":-1,\"gift_id\":-1}" - price high to low
+"{\"message_post_time\":-1,\"gift_id\":-1}" - latest
+"{\"export_at\":1,\"gift_id\":-1}" - mint time
+"{\"rarity\":-1,\"gift_id\":-1}" - rarity score
+"{\"gift_num\":1,\"gift_id\":-1}" - gift id ascending
+"{\"gift_num\":-1,\"gift_id\":-1}" - gift id descending
+"{\"modelRarity\":1,\"gift_id\":-1}" - model rarity ascending
+"{\"backdropRarity\":1,\"gift_id\":-1}" - backdrop rarity ascending
+"{\"symbolRarity\":1,\"gift_id\":-1}" - symbol rarity ascending
+
+backdrop:
+
+\"backdrop\":{\"$regex\":\"^Ranger Green \\\\(\"}
+\"backdrop\":{\"$regex\":\"^Backdrop name \\\\(\"}
+- first letter has to be capitalized
+
+symbol:
+
+\"symbol\":{\"$regex\":\"^Manta Ray \\\\(\"}
+\"symbol\":{\"$regex\":\"^Symbol name \\\\(\"}
+- first letter has to be capitalized
+
+gift name:
+\"gift_name\":\"Astral Shard\"
+(also capitalized)
+
+gift model:
+\"model\":{\"$regex\":\"^Dark Soul \\\\(\"}
+\"model\":{\"$regex\":\"^Model name \\\\(\"}
+(again, capitalized)
+
+default filter:
+
+"filter":"{\"price\":{\"$exists\":true},\"refunded\":{\"$ne\":true},\"buyer\":{\"$exists\":false},\"export_at\":{\"$exists\":true},\"asset\":\"TON\"}"
+
+listed mygifts:
+"sort":"{\"message_post_time\":-1,\"gift_id\":-1}"
+filter - "{\"message_post_time\":-1,\"gift_id\":-1}","filter":"{\"seller\":6083232778,\"buyer\":{\"$exists\":false},\"$or\":[{\"price\":{\"$exists\":true}},{\"auction_id\":{\"$exists\":true}}]}"
+- user_auth required
+
+unlisted mygifts:
+"sort":"{\"gift_num\":1,\"gift_id\":-1}"
+"filter":"{\"seller\":6083232778,\"buyer\":{\"$exists\":false},\"refunded\":{\"$ne\":true},\"price\":{\"$exists\":false}}"
+- user_auth required
+
+
