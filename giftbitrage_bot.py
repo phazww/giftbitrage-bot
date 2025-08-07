@@ -653,9 +653,9 @@ def calculate_portals_internal_flips(
 
     Given floor and second floor prices for each (gift, model) pair on
     Portals, compute the profit from buying at the floor price and selling
-    at the second price, after accounting for Portals commission on the
-    sale.  Only opportunities meeting the minimum profit percentage are
-    returned.
+    at the second price, after accounting for Portals commission on both
+    the purchase and the sale.  Only opportunities meeting the minimum
+    profit percentage are returned.
 
     Parameters
     ----------
@@ -673,9 +673,9 @@ def calculate_portals_internal_flips(
     for (gift_name, model_name), (floor_price, second_price) in portals_prices.items():
         if floor_price is None or second_price is None:
             continue
-        # Buy at floor, sell at second price, pay commission on sale
+        # Buy at floor, sell at second price, pay commission on both sides
         revenue = second_price * (1 - COMMISSION_RATE_PORTALS)
-        cost = floor_price
+        cost = floor_price * (1 + COMMISSION_RATE_PORTALS)
         profit = revenue - cost
         if profit <= 0:
             continue
@@ -687,7 +687,7 @@ def calculate_portals_internal_flips(
             model=model_name,
             backdrop="",
             symbol="",
-            price_buy=floor_price,
+            price_buy=cost,
             price_sell=second_price,
             profit_absolute=profit,
             profit_percent=profit_percent,
